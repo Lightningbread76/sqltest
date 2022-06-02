@@ -1,16 +1,32 @@
-import React from 'react';
+import React , {useEffect, useState} from 'react';
 import './Footer.css';
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
 
 function Footer() {
+  const [backendData, setBackendData] = useState([{}])
+
+  useEffect(()=> { 
+    fetch("/api").then(
+      response =>response.json()
+    ).then(
+      data => {setBackendData(data)}
+    )
+  },[])
+
   return (
     <div className='footer-container'>
 
         <div className='input-areas'>
           <div className='footer-subscription'>
           <h2>Want to do a Photoshoot? Send your insta link and I'll get back to you!</h2>
-          <br></br>
+          {(typeof backendData.users==='undefined')?(
+            <p>Loading...</p>
+            ):(
+              backendData.users.map((user,i) => (
+                <p key={i}>{user}</p>
+              ))
+            )}
           <form>
             <input
               className='footer-input'
@@ -89,6 +105,7 @@ function Footer() {
       </section>
     </div>
   );
+  
 }
 
 export default Footer;
