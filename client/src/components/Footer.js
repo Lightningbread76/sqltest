@@ -1,6 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import './Footer.css';
 import { Button } from './Button';
+import Axios from 'axios';
 import { Link } from 'react-router-dom';
 
 function Footer() {
@@ -14,28 +15,51 @@ function Footer() {
     )
   },[])
 
+  const url = "http://localhost:5000/api/add"
+  const[data,setData] = useState({
+    name:""
+  })
+  function handle(e){
+    const newdata={...data}
+    newdata[e.target.id] = e.target.value
+    setData(newdata)
+    console.log(newdata)
+  }
+
+  function submit(e){
+    e.preventDefault();
+    Axios.post(url,{name: data.name}).then(res=>{
+      console.log(res.data)
+    })
+  }
+  
+
   return (
     <div className='footer-container'>
 
         <div className='input-areas'>
           <div className='footer-subscription'>
           <h2>Want to do a Photoshoot? Send your insta link and I'll get back to you!</h2>
-          {(typeof backendData.users==='undefined')?(
+          Queue: {(typeof backendData.users==='undefined')?(
             <p>Loading...</p>
             ):(
-              backendData.users.map((user,i) => (
-                <p key={i}>{user}</p>
-              ))
+              backendData.users.length
             )}
-          <form>
+          <form onSubmit={(e)=>submit(e)}>
             <input
               className='footer-input'
-              name='email'
-              type='email'
-              placeholder='Your Insta URL'
+              onChange={(e)=>handle(e)}
+              id = 'name'
+              value = {data.name}
+              type='text'
+              placeholder='Your Instagram name'
             />
-            
-            <Button buttonStyle='btn--outline'>Send</Button>
+            <button>Submit</button>
+            <Button onClick={() => {
+              
+    alert('data has been sent!');
+  }}
+  buttonStyle='btn--outline'>Send</Button>
           </form>
           </div>
         </div>
