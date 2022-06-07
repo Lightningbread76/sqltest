@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 
+
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 5000;
 
 var indexRouter = require('./routes/index');
@@ -9,10 +10,21 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://dbUser:nivek@cluster0.upbzu.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+
+  client.close();
+});
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
+app.set('view engine', 'jade');
 
 
 app.use(express.json());

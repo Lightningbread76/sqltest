@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= "Select a Stock!"
+    form(action="/ps4" method="POST")
+    p Name:
+        input(type="text" id = "ticker" name="name" placeholder="")
+
+    input(type="submit" onclick="location.href='/ps4/find/' + ticker.value")
+
+map((user,i) => (
+                <p key={i}>{user}</p>
+              ))
