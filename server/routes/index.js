@@ -1,5 +1,5 @@
 var express = require('express');
-
+const {db} = require('../db');
 var router = express.Router();
 
 
@@ -10,8 +10,10 @@ router.get("/api", function(req, res) {
   res.json({ "users": ["userOne","userTwo", "userThree"] });
 });
 
-router.post("/api/add", function(req,res){
-  return res.json(users.push(res.name));
+router.post("/api/add", async(req,res)=>{
+  const post = req.params;
+  const result = await db.collection(instanames).insertOne(post);
+  res.json(result);
 })
 
 
