@@ -15,6 +15,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         throw new Error('connecting to db');
       }
       db = client.db('mywebapp');
+      db.collection('instanames').insertOne({'handle':'kevin'});
       resolve(db);
       console.log('successfully connected to db');
     });
