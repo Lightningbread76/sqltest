@@ -15,7 +15,7 @@ function Footer() {
     )
   },[])
 
-  const url = "http://localhost:5000/api/add"
+  const url = "http://localhost:5000/add/"
   const[data,setData] = useState({
     name:""
   })
@@ -28,7 +28,7 @@ function Footer() {
 
   function submit(e){
     e.preventDefault();
-    Axios.post(url,{name: data.name}).then(res=>{
+    Axios.post((url+data.name),{name: data.name}).then(res=>{
       console.log(res.data)
     })
   }

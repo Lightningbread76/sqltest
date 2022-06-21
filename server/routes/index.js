@@ -1,5 +1,5 @@
 var express = require('express');
-const {db} = require('../db');
+const {db, pushToDb,pullFromDb} = require('../db');
 var router = express.Router();
 
 
@@ -12,19 +12,19 @@ router.get("/api", function(req, res) {
 
 router.post("/api/add", async(req,res)=>{
   const post = req.params;
-  const result = await db.collection('instanames').insertOne(post);
+  const result = await db.collection('instanames').insertOne({"name": [post]});
   res.json(result);
 })
 
 
 router.get('/', function(req, res, next) {
+  
   res.render('index', { title: 'Express' });
 });
 
 router.get('/add/:name',async(req,res)=>{
   const val = req.params.name;
-  const result = await db.collection('instanames').insertOne(val);
-  console.log(val);
+  const result = pushToDb(val);
   res.json(result);
 });
 
